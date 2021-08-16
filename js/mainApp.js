@@ -35,7 +35,7 @@ const actualUser = {
 
 //URLS QUE NECESITARÉ
 const URLS = {
-    initialRequests: ""
+    initialRequests: "http://10.19.5.88/Buzon/Back-end/obtenerPeticiones.php"
 }
 
 /*Funciones con respecto a peticiones http*/
@@ -46,148 +46,60 @@ const HTTPFunctions = {
         let info = {
             id: actualUser.id
         }
-
+        let usuario = actualUser.id.replace(".","_");//angel
         let json = JSON.stringify(info);
         let data = new FormData();
-        data.append('index', json);
+        console.log( usuario)
+        data.append('usuario_busqueda', usuario);//angel
 
         //let array = JSON.parse(response);
 
-        //borra despues alonso
-        let array = [
-            {
-                nombre: "Pólizas del 2021",
-                polizas: [
-                    {
-                        id: "202100021001",
-                        poliza: "...",
-                        ruta: "...",
-                        observacion: "..."
-                    },
-                    {
-                        id: "202100021002",
-                        poliza: "...",
-                        ruta: "...",
-                        observacion: "..."
-                    },
-                    {
-                        id: "202100021003",
-                        poliza: "...",
-                        ruta: "...",
-                        observacion: "..."
-                    }
-                ]
-            },
-            {
-                nombre: "Pólizas del 2018",
-                polizas: [
-                    {
-                        id: "201800000001",
-                        poliza: "...",
-                        ruta: "...",
-                        observacion: "..."
-                    },
-                    {
-                        id: "201800000002",
-                        poliza: "...",
-                        ruta: "...",
-                        observacion: "..."
-                    },
-                ]
-            }
-        ];
-
-        let actualObject = null;
-        for (let i = 0; i < array.length; i++) {
-            actualObject = {
-                name: array[i].nombre,
-                list: [],
-                zipDownloadLink: "..."
-            };
-
-            for (let j = 0; j < array[i].polizas.length; j++) {
-                actualObject.list.push(array[i].polizas[j].id);
-            }
-
-            actualUser.requests.push(actualObject);
-        }
-        /*
-        let promise = await fetch(URLS.initialRequests, {
+    
+        let promise = await fetch("http://10.19.5.88/Buzon/Back-end/obtenerPeticiones.php", {
             method: 'POST',
-            body: data
+            body: data,
+            /*
+            'mode': 'cors',
+	        'headers': {
+            	'Access-Control-Allow-Origin': '*',
+        	}
+            */
         })
             .then((msg) => msg.text())
             .then((response) => {
+                console.log(response);
                 if (response === "Error") {
                     //Do something
                 }
                 else {
                     let array = JSON.parse(response);
-
-                    //borra despues alonso
-                    array = [
-                        {
-                            nombre: "Pólizas del 2021",
-                            polizas: [
-                                {
-                                    id: "202100021001",
-                                    poliza: "...",
-                                    ruta: "...",
-                                    observacion: "..."
-                                },
-                                {
-                                    id: "202100021002",
-                                    poliza: "...",
-                                    ruta: "...",
-                                    observacion: "..."
-                                },
-                                {
-                                    id: "202100021003",
-                                    poliza: "...",
-                                    ruta: "...",
-                                    observacion: "..."
-                                }
-                            ]
-                        },
-                        {
-                            nombre: "Pólizas del 2018",
-                            polizas: [
-                                {
-                                    id: "201800000001",
-                                    poliza: "...",
-                                    ruta: "...",
-                                    observacion: "..."
-                                },
-                                {
-                                    id: "201800000002",
-                                    poliza: "...",
-                                    ruta: "...",
-                                    observacion: "..."
-                                },
-                            ]
-                        }
-                    ];
+                    //console.log(array);
+                   
 
                     let actualObject = null;
+                    
                     for (let i = 0; i < array.length; i++) {
                         actualObject = {
                             name: array[i].nombre,
-                            list: [],
-                            zipDownloadLink: "..."
+                            list: array[i].polizas,
+                            //zipDownloadLink: "..."
                         };
-
+                        console.log(actualObject);
+                        /*
                         for (let j = 0; j < array[i].polizas.length; j++) {
-                            actualObject.list.push(array[i].polizas[j].id);
+                            actualUser.requests.push(array[i].polizas[j].id);
                         }
+                        */
 
                         actualUser.requests.push(actualObject);
+                        localFunctions.showAvailableRequests();
                     }
                 }
             })
             .catch((error) => {
 
             });
-            */
+            
     }
 }
 
@@ -196,14 +108,18 @@ const localFunctions = {
     showAvailableRequests: () => {
         let mainContent = ``; //Va a haber uno solo
         let actualTableContent; //Habrá muchos
+        let objetoPedido = null; //angel
         for (let i = 0; i < actualUser.requests.length; i++) {
             //Este es un elemento de tipo request
 
+            objetoPedido = actualUser.requests[i];
+            //console.log(objetoPedido);
             actualTableContent = `<table>`;
             for (let j = 0; j < actualUser.requests[i].list.length; j++) {
+                //console.log(objetoPedido.list[j]);
                 actualTableContent += `
                     <tr>
-                        <td>${actualUser.requests[i].list[j]}</td>
+                        <td><a href="${objetoPedido.list[j].ruta}" target="_blank">${objetoPedido.list[j].poliza}</a></td>
                     </tr>
                 `;
             }
@@ -238,7 +154,7 @@ const localFunctions = {
                     </section>
                     <section class="info-request-section info-request__download">
                         <span>Descargar:</span>
-                        <button>Descargar como archivo .zip</button>
+                        <button onclick="descargarZip('${actualUser.requests[i].name}')">Descargar como archivo .zip</button>
                     </section>
                 </section>
             </div>
@@ -331,6 +247,20 @@ const events = {
 
         $("header .header-log-out button").click(localFunctions.logout);
     }
+}
+
+
+
+function descargarZip(tabla){
+    const componenteDescargar = document.createElement("a");
+    componenteDescargar.href = "http://10.19.5.88/Buzon/almacen/" + tabla + "/" + tabla + ".zip";
+    componenteDescargar.target = "_blank";
+    componenteDescargar.download = tabla + ".zip";
+
+    document.body.appendChild(componenteDescargar);
+    componenteDescargar.click();
+    document.body.removeChild(componenteDescargar);
+
 }
 
 //El documento está listo para correr
