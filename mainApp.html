@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buzón</title>
+    <link rel="stylesheet" href="./css/mainApp.css">
+    <script src="./js/libs/jquery-3.6.0.min.js"></script>    
+</head>
+
+<body>
+    <header>
+        <div class="title-postbox">
+            <span>Buzón</span>
+            <span class="news" id="news-header"></span>
+        </div>
+        
+        <div class="right-side">
+            <div class="header-username">
+                <span></span>
+            </div>
+            
+            <div class="header-log-out">
+                <button>Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="requests-section">
+        </section>
+    </main>
+    <footer>
+        <!--<a target="_blank" href="https://icons8.com/icon/23537/close-window">Close Window</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>-->
+    </footer>
+    <div class="modal-screen modal-incidences">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="left-side">
+                    <span class="title"></span>
+                </div>
+                <div class="right-side">
+                    <span class="close-button">x</span>
+                </div>
+            </div>
+            <div class="modal-main">
+                <div class="message">
+                    <span>Introduce aquí tu incidencia:</span>
+                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div class="buttons">
+                    <button class="special-incidence">Incidencia Especial</button>
+                    <button class="submit">Consultar Incidencia</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/mainApp.js"></script>
+</body>
+</html>

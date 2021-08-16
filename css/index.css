@@ -1,0 +1,64 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 62.5%;
+}
+body{
+    font-size: 1.6rem;
+    background-color: black;
+    font-family: sans-serif;
+}
+
+main{
+    width: 100vw;
+    height: 100vh;
+    background: url("./../imgs/definitive-background.jpg");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(rgba(0, 0, 0, 0.3),rgba(0,0,0,0.4));
+    /* background: rgba(0,0,0,0.3); */
+    box-shadow: .7rem .7rem 6rem black;
+    border-radius: 1rem;
+    align-items: center;
+}
+.logo{
+    width: 28rem;
+    height: 20.1rem;
+    margin-bottom: 1rem;
+}
+.label-username{
+    display: flex;
+    flex-direction: column;
+}
+.label-username span{
+    color: white;
+}
+form input[type="submit"]{
+    background-color: rgb(191,4,17);
+    border: none;
+    padding: 1rem;
+    outline: none;
+    opacity: .7;
+    color: rgba(255,255,255);
+    transition: opacity .3s ease;
+    cursor: pointer;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+form input[type="submit"]:hover{
+    opacity: 1;
+}
