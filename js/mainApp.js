@@ -109,6 +109,7 @@ const localFunctions = {
         let mainContent = ``; //Va a haber uno solo
         let actualTableContent; //Habrá muchos
         let objetoPedido = null; //angel
+        let datosFechaDeTabla = "";
         for (let i = 0; i < actualUser.requests.length; i++) {
             //Este es un elemento de tipo request
 
@@ -125,10 +126,21 @@ const localFunctions = {
             }
             actualTableContent += `</table>`;
 
+            let nombreTablaArray = (actualUser.requests[i].name).split("_");
+            
+            let usuarioHeader = "";
+            let fechaHeader = "";
+            let horaHeader = "";
+
+                    
+            usuarioHeader = nombreTablaArray[0] + "." + nombreTablaArray[1];
+            fechaHeader = nombreTablaArray[2] + " / " + nombreTablaArray[3] + " / " + nombreTablaArray[4];
+            horaHeader = adornaLaHora(parseInt(nombreTablaArray[5]),parseInt(nombreTablaArray[6]),parseInt(nombreTablaArray[7]));
+            
             mainContent += `
             <div class="all-request">
                 <div class="drop-down-request">
-                    <span class="request-title">${actualUser.requests[i].name}</span>
+                    <span class="request-title">${"Dia: " + fechaHeader + " a las " + horaHeader}</span>
                     <!--
                     <picture>
                         <img class="drop-down-icon" src="./imgs/drop-down-icon.png" alt="Desplegable"/>
@@ -249,18 +261,145 @@ const events = {
     }
 }
 
+var bandera = false;
+//hasta aqui lo hace con el await
+ async function descargarZip(tabla){
+     //console.log("corroborar pedido: ",corroborarPedido(tabla));
+     await corroborarPedido(tabla);
+    if(bandera === true){
+        const componenteDescargar = document.createElement("a");
+        componenteDescargar.href = "http://10.19.5.88/Buzon/almacen/"  + tabla + ".zip";
+        componenteDescargar.target = "_blank";
+        componenteDescargar.download = tabla + ".zip";
+        
+        document.body.appendChild(componenteDescargar);
+        componenteDescargar.click();
+        document.body.removeChild(componenteDescargar);
+        console.log("descargando y borrando");
+        borrarPedido(tabla);
+    }else{
+        console.log("solo se puede descargar una vez");
+    }
+}
+
+async function corroborarPedido(ruta){
+    
+    const formData = new FormData();
+    
+    formData.append("directorio", ruta);
+
+    // Los enviamos
+    //$estado.textContent = "Enviando archivos...";
+    const respuestaRaw = await fetch("http://10.19.5.88/Buzon/Back-end/existePedido.php", {
+        method: "POST",
+        body: formData,
+    }).then((msg)=>msg.text()).then((response)=>{
+        
+    
+    // Puedes manejar la respuesta como tú quieras
+    console.log("respuesta de si existe o no; ",response);
+    
+    if(response === "descarga"){
+        console.log("entre al if de existePedido: ",response);
+        bandera = true;
+    }else if(response === "denegado"){
+        console.log("entre al else if de existePedido: ",response);
+        bandera = false;
+    }else{
+        console.log("entre al else de existePedido: ",response);
+        bandera = false;
+    }
+    }).catch((e)=>{
+        console.log("error: ",e);
+        bandera = false;
+    });
+    
+}
+
+async function borrarPedido(ruta){
+    
+    const formData = new FormData();
+    
+    formData.append("pedido_obsoleto", ruta);
+
+    // Los enviamos
+    //$estado.textContent = "Enviando archivos...";
+    const respuestaRaw = await fetch("http://10.19.5.88/Buzon/Back-end/borrarPedido.php", {
+        method: "POST",
+        body: formData,
+    }).then((msg)=>msg.text()).then((respuesta)=>{
+        
+    
+        // Puedes manejar la respuesta como tú quieras
+        console.log("respuesta de borrado; ",respuesta);
+        
+        }).catch((e)=>{
+            console.log("error: ",e);
+        });
+    
+}
 
 
-function descargarZip(tabla){
-    const componenteDescargar = document.createElement("a");
-    componenteDescargar.href = "http://10.19.5.88/Buzon/almacen/" + tabla + "/" + tabla + ".zip";
-    componenteDescargar.target = "_blank";
-    componenteDescargar.download = tabla + ".zip";
+function adornaLaHora(hora,minuto,segundo){
+    var fechaAdornada="";
+    var aux="";
+    if(hora>=0 && hora<12){
+        aux="am";
+    }else{
+        aux="pm";
+    }
 
-    document.body.appendChild(componenteDescargar);
-    componenteDescargar.click();
-    document.body.removeChild(componenteDescargar);
+    if(hora>12){
+        switch(hora-12){
+            case 1: fechaAdornada+="01"; break;
+            case 2: fechaAdornada+="02"; break;
+            case 3: fechaAdornada+="03"; break;
+            case 4: fechaAdornada+="04"; break;
+            case 5: fechaAdornada+="05"; break;
+            case 6: fechaAdornada+="06"; break;
+            case 7: fechaAdornada+="07"; break;
+            case 8: fechaAdornada+="08"; break;
+            case 9: fechaAdornada+="09"; break;
+            default: fechaAdornada+=hora-12;
+        }
 
+    }
+    else if(hora===0){
+        fechaAdornada+="12";
+    }
+    else{
+
+        switch(hora){
+            case 1: fechaAdornada+="01"; break;
+            case 2: fechaAdornada+="02"; break;
+            case 3: fechaAdornada+="03"; break;
+            case 4: fechaAdornada+="04"; break;
+            case 5: fechaAdornada+="05"; break;
+            case 6: fechaAdornada+="06"; break;
+            case 7: fechaAdornada+="07"; break;
+            case 8: fechaAdornada+="08"; break;
+            case 9: fechaAdornada+="09"; break;
+            default: fechaAdornada+=hora;
+        }
+    }
+
+    switch(minuto){
+        case 0: fechaAdornada+=":00"+" "+aux; break;
+        case 1: fechaAdornada+=":01"+" "+aux; break;
+        case 2: fechaAdornada+=":02"+" "+aux; break;
+        case 3: fechaAdornada+=":03"+" "+aux; break;
+        case 4: fechaAdornada+=":04"+" "+aux; break;
+        case 5: fechaAdornada+=":05"+" "+aux; break;
+        case 6: fechaAdornada+=":06"+" "+aux; break;
+        case 7: fechaAdornada+=":07"+" "+aux; break;
+        case 8: fechaAdornada+=":08"+" "+aux; break;
+        case 9: fechaAdornada+=":09"+" "+aux; break;
+        default: fechaAdornada+=":"+minuto+" "+aux;
+    }
+    
+    fechaAdornada += " con " + segundo + " segundos";
+
+    return(fechaAdornada);   
 }
 
 //El documento está listo para correr
