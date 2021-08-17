@@ -49,7 +49,7 @@ const HTTPFunctions = {
         let usuario = actualUser.id.replace(".","_");//angel
         let json = JSON.stringify(info);
         let data = new FormData();
-        console.log( usuario)
+        //console.log( usuario)
         data.append('usuario_busqueda', usuario);//angel
 
         //let array = JSON.parse(response);
@@ -67,13 +67,13 @@ const HTTPFunctions = {
         })
             .then((msg) => msg.text())
             .then((response) => {
-                console.log(response);
+                //console.log(response);
                 if (response === "Error") {
                     //Do something
                 }
                 else {
                     let array = JSON.parse(response);
-                    //console.log(array);
+                    ////console.log(array);
                    
 
                     let actualObject = null;
@@ -85,7 +85,7 @@ const HTTPFunctions = {
                             incidencias: array[i].incidencias
                             //zipDownloadLink: "..."
                         };
-                        console.log(actualObject);
+                        //console.log(actualObject);
                         /*
                         for (let j = 0; j < array[i].polizas.length; j++) {
                             actualUser.requests.push(array[i].polizas[j].id);
@@ -116,13 +116,13 @@ const localFunctions = {
             //Este es un elemento de tipo request
 
             objetoPedido = actualUser.requests[i];
-            //console.log(objetoPedido);
+            ////console.log(objetoPedido);
             actualTableContent = `<table>`;
             for (let j = 0; j < actualUser.requests[i].list.length; j++) {
-                //console.log(objetoPedido.list[j]);
+                ////console.log(objetoPedido.list[j]);
                 actualTableContent += `
                     <tr>
-                        <td><a href="${objetoPedido.list[j].ruta}" target="_blank">${objetoPedido.list[j].poliza}</a></td>
+                        <td><a href="${objetoPedido.list[j].ruta === '' ? "#" : objetoPedido.list[j].ruta}" ${objetoPedido.list[j].ruta === '' ? "" : 'target="_blank"'} >${objetoPedido.list[j].poliza}</a></td>
                     </tr>
                 `;
             }
@@ -130,10 +130,10 @@ const localFunctions = {
 
             
             
-            //console.log(objetoPedido);
+            ////console.log(objetoPedido);
             incidenciasContenido = `<ul class="lista-incidencia">`;
             for (let j = 0; j < actualUser.requests[i].incidencias.length; j++) {
-                //console.log(objetoPedido.list[j]);
+                ////console.log(objetoPedido.list[j]);
                 incidenciasContenido += `
                     
                         <li class="incidencia-item">* ${objetoPedido.incidencias[j].incidencia}</li>
@@ -253,19 +253,19 @@ const eventsOfElements = {
     },
     buttonOfSubmitIncidence: async () => {        
         let valorIncidencia = document.getElementById("incidencia").value;
-        console.log(valorIncidencia);
+        //console.log(valorIncidencia);
         
-        console.log("objeto para mandar incidencia: ",actualUser.selectedRequest);
+        //console.log("objeto para mandar incidencia: ",actualUser.selectedRequest);
 
         if (/\S/.test(valorIncidencia) && valorIncidencia!=null) {
             // string is not empty and not just whitespace
-            console.log("no es vacio y no solo espacios en blanco");
+            //console.log("no es vacio y no solo espacios en blanco");
 
             
         
         
         let data = new FormData();
-        console.log(valorIncidencia)
+        //console.log(valorIncidencia)
         data.append('incidencia', valorIncidencia);//angel
         data.append('tabla', actualUser.selectedRequest.name);//angel
         //let array = JSON.parse(response);
@@ -278,19 +278,19 @@ const eventsOfElements = {
         })
             .then((msg) => msg.text())
             .then((response) => {
-                console.log(response);
+                //console.log(response);
                 if(response == "Insidencia apuntada"){
                     alert("incidencia enviada");
                     $(".modal-screen").css({"display": "none"});
                 }
             })
             .catch((error) => {
-                console.log(error);
+                //console.log(error);
             });
             
         }else{
             
-            console.log("es vacio o erroneo en la incidencia");
+            //console.log("es vacio o erroneo en la incidencia");
             
         }
     
@@ -329,7 +329,7 @@ const events = {
 var bandera = false;
 //hasta aqui lo hace con el await
  async function descargarZip(tabla){
-     //console.log("corroborar pedido: ",corroborarPedido(tabla));
+     ////console.log("corroborar pedido: ",corroborarPedido(tabla));
      await corroborarPedido(tabla);
     if(bandera === true){
         const componenteDescargar = document.createElement("a");
@@ -340,10 +340,10 @@ var bandera = false;
         document.body.appendChild(componenteDescargar);
         componenteDescargar.click();
         document.body.removeChild(componenteDescargar);
-        console.log("descargando y borrando");
+        //console.log("descargando y borrando");
         borrarPedido(tabla);
     }else{
-        console.log("solo se puede descargar una vez");
+        //console.log("solo se puede descargar una vez");
     }
 }
 
@@ -362,20 +362,20 @@ async function corroborarPedido(ruta){
         
     
     // Puedes manejar la respuesta como tú quieras
-    console.log("respuesta de si existe o no; ",response);
+    //console.log("respuesta de si existe o no; ",response);
     
     if(response === "descarga"){
-        console.log("entre al if de existePedido: ",response);
+        //console.log("entre al if de existePedido: ",response);
         bandera = true;
     }else if(response === "denegado"){
-        console.log("entre al else if de existePedido: ",response);
+        //console.log("entre al else if de existePedido: ",response);
         bandera = false;
     }else{
-        console.log("entre al else de existePedido: ",response);
+        //console.log("entre al else de existePedido: ",response);
         bandera = false;
     }
     }).catch((e)=>{
-        console.log("error: ",e);
+        //console.log("error: ",e);
         bandera = false;
     });
     
@@ -396,10 +396,10 @@ async function borrarPedido(ruta){
         
     
         // Puedes manejar la respuesta como tú quieras
-        console.log("respuesta de borrado; ",respuesta);
+        //console.log("respuesta de borrado; ",respuesta);
         
         }).catch((e)=>{
-            console.log("error: ",e);
+            //console.log("error: ",e);
         });
     
 }
