@@ -297,3 +297,17 @@ div.modal-incidences .modal-main .buttons .special-incidence:hover{
     color: rgb(139 44 165);
     border-color: rgb(139 44 165);
 }
+
+.lista-incidencia{
+    
+    list-style: none;
+    margin: 10px;
+}
+.incidencia-item{
+    background-color: #eb4d4b;
+    color:#dff9fb;
+    font-family: cursive,Arial, Helvetica, sans-serif;
+    margin: 5px;
+    text-align: center;
+    border-radius: 3px;
+}

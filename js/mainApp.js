@@ -82,6 +82,7 @@ const HTTPFunctions = {
                         actualObject = {
                             name: array[i].nombre,
                             list: array[i].polizas,
+                            incidencias: array[i].incidencias
                             //zipDownloadLink: "..."
                         };
                         console.log(actualObject);
@@ -108,6 +109,7 @@ const localFunctions = {
     showAvailableRequests: () => {
         let mainContent = ``; //Va a haber uno solo
         let actualTableContent; //Habrá muchos
+        let incidenciasContenido;
         let objetoPedido = null; //angel
         let datosFechaDeTabla = "";
         for (let i = 0; i < actualUser.requests.length; i++) {
@@ -126,6 +128,22 @@ const localFunctions = {
             }
             actualTableContent += `</table>`;
 
+            
+            
+            //console.log(objetoPedido);
+            incidenciasContenido = `<ul class="lista-incidencia">`;
+            for (let j = 0; j < actualUser.requests[i].incidencias.length; j++) {
+                //console.log(objetoPedido.list[j]);
+                incidenciasContenido += `
+                    
+                        <li class="incidencia-item">* ${objetoPedido.incidencias[j].incidencia}</li>
+                    
+                `;
+            }
+            incidenciasContenido += `</ul>`;
+
+
+            
             let nombreTablaArray = (actualUser.requests[i].name).split("_");
             
             let usuarioHeader = "";
@@ -156,6 +174,8 @@ const localFunctions = {
 
             mainContent += `
                         " onClick="eventsOfElements.buttonOfIncidences(this.id)">Reportar incidencia</button>
+                        ${incidenciasContenido}
+                        
                     </section>
                     <section class="info-request-section info-request__list">
                         <!-- Ejemplo -->
