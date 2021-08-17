@@ -230,6 +230,50 @@ const eventsOfElements = {
         if(event.target.className.includes("modal-screen")){
             $(".modal-screen").css({"display": "none"});
         }
+    },
+    buttonOfSubmitIncidence: async () => {        
+        let valorIncidencia = document.getElementById("incidencia").value;
+        console.log(valorIncidencia);
+        
+        console.log("objeto para mandar incidencia: ",actualUser.selectedRequest);
+
+        if (/\S/.test(valorIncidencia) && valorIncidencia!=null) {
+            // string is not empty and not just whitespace
+            console.log("no es vacio y no solo espacios en blanco");
+
+            
+        
+        
+        let data = new FormData();
+        console.log(valorIncidencia)
+        data.append('incidencia', valorIncidencia);//angel
+        data.append('tabla', actualUser.selectedRequest.name);//angel
+        //let array = JSON.parse(response);
+
+    
+        let promise = await fetch("http://10.19.5.88/Buzon/Back-end/crearIncidencia.php", {
+            method: 'POST',
+            body: data,
+            
+        })
+            .then((msg) => msg.text())
+            .then((response) => {
+                console.log(response);
+                if(response == "Insidencia apuntada"){
+                    alert("incidencia enviada");
+                    $(".modal-screen").css({"display": "none"});
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+            
+        }else{
+            
+            console.log("es vacio o erroneo en la incidencia");
+            
+        }
+    
     }
 }
 
@@ -250,6 +294,7 @@ const events = {
         $(".modal-container .close-button").click(() => {
             $(".modal-screen").css({"display": "none"});
         });
+        $(".modal-container .modal-main .buttons .submit").click(eventsOfElements.buttonOfSubmitIncidence);
     },
     atMiddle: () => {
         //Establecer en nuestro html
@@ -401,6 +446,12 @@ function adornaLaHora(hora,minuto,segundo){
 
     return(fechaAdornada);   
 }
+
+
+async function reportarIncidencia(tabla,incidencia){
+    //
+}
+
 
 //El documento está listo para correr
 $(document).ready(() => {
