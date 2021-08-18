@@ -39,6 +39,8 @@ form{
     width: 28rem;
     height: 20.1rem;
     margin-bottom: 1rem;
+    border-radius: 30%;
+    
 }
 .label-username{
     display: flex;

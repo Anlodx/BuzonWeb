@@ -213,11 +213,13 @@ div.modal-incidences .modal-container{
     height: 70vh;
     display: flex;
     flex-direction: column; 
+    
 }
 div.modal-incidences .modal-container .modal-header{
     width: 100%;
-    height: 20%;
-    background-color: rgb(102 38 119);
+    padding-top: 3%;
+    padding-bottom: 3%;
+    background-color: #eb4d4b;
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
     color: white;
@@ -227,6 +229,9 @@ div.modal-incidences .modal-container .modal-header{
 }
 .modal-incidences .modal-header .title {
     margin-left: 1rem;
+    color:#c7ecee;
+    font-family: cursive,Arial, Helvetica, sans-serif;
+
 }
 .modal-incidences .modal-header .close-button{
     margin: 1rem;
@@ -236,33 +241,46 @@ div.modal-incidences .modal-container .modal-header{
     font-weight: 700;
     border-radius: 100%;
     cursor: pointer;
+    transition: all .5s;
+    
 }
 .modal-incidences .modal-header .close-button:hover{
-    background-color: rgb(139 44 165);
+    background-color: rgba(0, 0, 0, .5);
     /* box-shadow: .5rem .5rem .5rem rgba(0, 0, 0, .5); */
 }
 div.modal-incidences .modal-container .modal-main{
     width: 100%;
-    height: 80%;
-    background-color: beige;
+    
+    background-color: #f1f2f6;
     border-bottom-left-radius: .5rem;
     border-bottom-right-radius: .5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    
 }
 div.modal-incidences .modal-container .modal-main .message{
     display: flex;
     flex-direction: column;
-    
+    margin: 10px;
 }
 div.modal-incidences .modal-container .modal-main .message span{    
-    color: rgb(102 38 119);
+    color: #3742fa;
     font-weight: bold;
+    margin: 10px;
 }
 div.modal-incidences .modal-container .modal-main .message textarea{
     width: 100%;
+    resize: none;
+    color:#2f3542;
+    font-weight: bold;
+    font-style: italic;
+    font-family: cursive,Arial, Helvetica, sans-serif;
+    border-color: #a4b0be;
+}
+div.modal-incidences .modal-container .modal-main .message textarea:focus{
+    border: 1px solid #fff;
     
 }
 
@@ -277,13 +295,14 @@ div.modal-incidences .modal-main .buttons button{
 div.modal-incidences .modal-main .buttons .submit{
     color: beige;
     border: none;
-    background-color: rgb(102 38 119);
+    background-color:#1e90ff;
     cursor: pointer;
     border-radius: .5rem;
     font-weight: bold;
+    transition: all .5s;
 }
 div.modal-incidences .modal-main .buttons .submit:hover{
-    background-color: rgb(139 44 165);
+    background-color: #5352ed;
 }
 div.modal-incidences .modal-main .buttons .special-incidence{
     color: rgb(102 38 119);
@@ -292,6 +311,7 @@ div.modal-incidences .modal-main .buttons .special-incidence{
     cursor: pointer;
     border-radius: .5rem;
     background-color: beige;
+    display: none;
 }
 div.modal-incidences .modal-main .buttons .special-incidence:hover{
     color: rgb(139 44 165);

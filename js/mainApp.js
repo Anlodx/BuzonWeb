@@ -240,7 +240,7 @@ const eventsOfElements = {
         actualUser.selectedRequest = actualUser.requests[id];
 
         //Open modal
-        $(".modal-incidences .modal-header .title").html((actualUser.requests[id].name !== null || actualUser.requests[id].name !== "") ? "Incidencias para: " + actualUser.requests[id].name : "Incidencias para: NULL");
+        $(".modal-incidences .modal-header .title").html((actualUser.requests[id].name !== null || actualUser.requests[id].name !== "") ? "Incidencias para: Departamento de digitalización" : "Incidencias para: Departamento de digitalización");
         $(".modal-incidences").css({"display" : "flex"});
     },
     close: () => {
