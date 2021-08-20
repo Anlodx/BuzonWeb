@@ -70,7 +70,7 @@ main {
     /* z-index: 1; */
     width: 100vw;
     min-height: 90vh;
-    /* background-color: red; */
+    /* background-color: red; xd hasta aqui bien*/
     background-color: #171723;
     color: hsl(234, 39%, 75%);
 }
@@ -89,7 +89,8 @@ main .requests-section {
     height: 3vh;
     padding: 2rem;
     text-align: center;
-    background-color: #25273c;
+    background-color: #2f3542;
+    color:white;
     border: 0.1rem solid black;
     border-radius: 1rem;
     display: flex;
@@ -219,7 +220,7 @@ div.modal-incidences .modal-container .modal-header{
     width: 100%;
     padding-top: 3%;
     padding-bottom: 3%;
-    background-color: #eb4d4b;
+    background-color: #1e90ff;
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
     color: white;
@@ -230,7 +231,7 @@ div.modal-incidences .modal-container .modal-header{
 .modal-incidences .modal-header .title {
     margin-left: 1rem;
     color:#c7ecee;
-    font-family: cursive,Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 
 }
 .modal-incidences .modal-header .close-button{
@@ -266,7 +267,7 @@ div.modal-incidences .modal-container .modal-main .message{
     margin: 10px;
 }
 div.modal-incidences .modal-container .modal-main .message span{    
-    color: #3742fa;
+    color: #1e90ff;
     font-weight: bold;
     margin: 10px;
 }
@@ -276,7 +277,7 @@ div.modal-incidences .modal-container .modal-main .message textarea{
     color:#2f3542;
     font-weight: bold;
     font-style: italic;
-    font-family: cursive,Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     border-color: #a4b0be;
 }
 div.modal-incidences .modal-container .modal-main .message textarea:focus{
@@ -326,7 +327,7 @@ div.modal-incidences .modal-main .buttons .special-incidence:hover{
 .incidencia-item{
     background-color: #eb4d4b;
     color:#dff9fb;
-    font-family: cursive,Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 5px;
     text-align: center;
     border-radius: 3px;

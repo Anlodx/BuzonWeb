@@ -106,25 +106,40 @@ const HTTPFunctions = {
 
 //Funciones relacionadas a aqui
 const localFunctions = {
-    showAvailableRequests: () => {
+    showAvailableRequests: async() => {
         let mainContent = ``; //Va a haber uno solo
         let actualTableContent; //Habrá muchos
         let incidenciasContenido;
         let objetoPedido = null; //angel
         let datosFechaDeTabla = "";
+        let arrayWithRequestsForShow = [];
         for (let i = 0; i < actualUser.requests.length; i++) {
             //Este es un elemento de tipo request
 
             objetoPedido = actualUser.requests[i];
             ////console.log(objetoPedido);
             actualTableContent = `<table>`;
-            for (let j = 0; j < actualUser.requests[i].list.length; j++) {
-                ////console.log(objetoPedido.list[j]);
-                actualTableContent += `
-                    <tr>
-                        <td><a href="${objetoPedido.list[j].ruta === '' ? "#" : objetoPedido.list[j].ruta}" ${objetoPedido.list[j].ruta === '' ? "" : 'target="_blank"'} >${objetoPedido.list[j].poliza}</a></td>
-                    </tr>
-                `;
+            await corroborarPedidoParaOcultar(objetoPedido.name);
+            if(banderaOcultar == false){
+                arrayWithRequestsForShow.push(i);
+
+                for (let j = 0; j < actualUser.requests[i].list.length; j++) {
+                    ////console.log(objetoPedido.list[j]);
+                    actualTableContent += `
+                        <tr>
+                            <td>
+                            ${
+                                (objetoPedido.list[j].ruta === '') ? objetoPedido.list[j].poliza
+                                :
+                                `
+                                <a href="${objetoPedido.list[j].ruta === '' ? "#" : objetoPedido.list[j].ruta}" ${objetoPedido.list[j].ruta === '' ? "" : 'target="_blank"'} >${objetoPedido.list[j].poliza}</a>
+                                `
+                            }
+                            </td>
+                        </tr>
+                    `;
+                }
+                
             }
             actualTableContent += `</table>`;
 
@@ -157,7 +172,7 @@ const localFunctions = {
             
             mainContent += `
             <div class="all-request">
-                <div class="drop-down-request">
+                <div class="drop-down-request" style="${banderaOcultar == false ? "background-color:#7bed9f;color:#2f3542":""}">
                     <span class="request-title">${"Dia: " + fechaHeader + " a las " + horaHeader}</span>
                     <!--
                     <picture>
@@ -202,6 +217,13 @@ const localFunctions = {
 
         for (let i = 0; i < actualUser.requests.length; i++) {
             //No es posible hacer esto:
+            arrayWithRequestsForShow.forEach((valor) => {
+                if (i == valor) {
+                    $(`.all-request:nth-child(${(i + 1)}) .drop-down-request ~ .info-request`).css({ "display": "flex" });
+                    $(`.all-request:nth-child(${(i + 1)}) .drop-down-request ~ .info-request`).show();
+                }
+            });
+
             $(`.all-request:nth-child(${(i + 1)}) .drop-down-request`).click(() => {
                 //`.all-request:nth-child(${(i + 1)}) .drop-down-request ~ .info-request`
 
@@ -282,6 +304,7 @@ const eventsOfElements = {
                 if(response == "Insidencia apuntada"){
                     alert("incidencia enviada");
                     $(".modal-screen").css({"display": "none"});
+                    location.reload();
                 }
             })
             .catch((error) => {
@@ -342,9 +365,45 @@ var bandera = false;
         document.body.removeChild(componenteDescargar);
         //console.log("descargando y borrando");
         borrarPedido(tabla);
+        
     }else{
         //console.log("solo se puede descargar una vez");
     }
+    
+}
+var banderaOcultar = true;
+async function corroborarPedidoParaOcultar(ruta){
+    
+    const formData = new FormData();
+    
+    formData.append("directorio", ruta);
+
+    // Los enviamos
+    //$estado.textContent = "Enviando archivos...";
+    const respuestaRaw = await fetch("http://10.19.5.88/Buzon/Back-end/existePedido.php", {
+        method: "POST",
+        body: formData,
+    }).then((msg)=>msg.text()).then((response)=>{
+        
+    
+    // Puedes manejar la respuesta como tú quieras
+    //console.log("respuesta de si existe o no; ",response);
+    
+    if(response === "descarga"){
+        //console.log("entre al if de existePedido: ",response);
+        banderaOcultar = false;
+    }else if(response === "denegado"){
+        //console.log("entre al else if de existePedido: ",response);
+        banderaOcultar = true;
+    }else{
+        //console.log("entre al else de existePedido: ",response);
+        banderaOcultar = true;
+    }
+    }).catch((e)=>{
+        //console.log("error: ",e);
+        banderaOcultar = false;
+    });
+    
 }
 
 async function corroborarPedido(ruta){
@@ -397,7 +456,7 @@ async function borrarPedido(ruta){
     
         // Puedes manejar la respuesta como tú quieras
         //console.log("respuesta de borrado; ",respuesta);
-        
+        location.reload();
         }).catch((e)=>{
             //console.log("error: ",e);
         });
