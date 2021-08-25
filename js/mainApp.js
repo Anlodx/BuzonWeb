@@ -168,7 +168,7 @@ const localFunctions = {
                     
             usuarioHeader = nombreTablaArray[0] + "." + nombreTablaArray[1];
             fechaHeader = nombreTablaArray[2] + " / " + nombreTablaArray[3] + " / " + nombreTablaArray[4];
-            horaHeader = adornaLaHora(parseInt(nombreTablaArray[5]),parseInt(nombreTablaArray[6]),parseInt(nombreTablaArray[7]));
+            horaHeader = adornaLaHora(parseInt(nombreTablaArray[5]),parseInt(nombreTablaArray[6]),nombreTablaArray[7]);
             
             mainContent += `
             <div class="all-request">
@@ -520,9 +520,12 @@ function adornaLaHora(hora,minuto,segundo){
         case 9: fechaAdornada+=":09"+" "+aux; break;
         default: fechaAdornada+=":"+minuto+" "+aux;
     }
-    
-    fechaAdornada += " con " + segundo + " segundos";
-
+    console.log("segundo:",segundo)
+    if(segundo == undefined){
+        //console.log("segundo: indefinido bro")
+    }else{
+        fechaAdornada += " con " + segundo + " segundos";
+    }
     return(fechaAdornada);   
 }
 
